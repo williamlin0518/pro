@@ -1,32 +1,27 @@
 package application;
-
+	
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import view.GameView;
-import view.ViewManager;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+
 
 public class Main extends Application {
-
-
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        try{
-            GameView gameView =new GameView(870,680,false);
-            gameView.createNewGame(primaryStage);
-            
-
-
-
-
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+	public void start(Stage stage) {
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("StartScene.fxml"));
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			stage.setTitle("StartScene");
+			stage.setScene(scene);
+			stage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
