@@ -2,6 +2,7 @@ package view;
 
 import Player.Player;
 import javafx.animation.AnimationTimer;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -10,17 +11,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
 public class GameView {
-    ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("images3.png")));
-    ImageView letterView=new ImageView(new Image(getClass().getResourceAsStream("letter.png")));
+    public ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("image.png")));
+    public static int rowImage = 4;public static int columnImage = 4;
+    public ImageView letterView=new ImageView(new Image(getClass().getResourceAsStream("letter.png")));
     Player player=new Player(imageView);
     static Pane root=new Pane();
     private Scene gameScene;
     private Stage gameStage;
     private Stage menuStage;
-    public static final int GAME_WIDTH=1000;
-    public static final int GAME_HEIGHT=600;
-    static Direction direction =Direction.down;
+    public static final int GAME_WIDTH=732;
+    public static final int GAME_HEIGHT=648;
+    public static Direction direction =Direction.down;
     public enum Direction {left, right, up, down}
     public static boolean up=false,down=false,right=false,left=false;
     public GameView(){
@@ -66,7 +69,7 @@ public class GameView {
         gameStage.show();
     }
     private void createGameBackground(){
-        Image backgroundImage= new Image("\\view\\map1.png",1024,800,false,true);
+        Image backgroundImage= new Image("\\view\\map1.png",GAME_WIDTH,GAME_HEIGHT,false,false);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
         root.setBackground(new Background(background));
     }
