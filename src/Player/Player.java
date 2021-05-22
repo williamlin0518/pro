@@ -12,7 +12,7 @@ public class Player extends Pane {
     public static int PLAYER_WIDTH=96;
     public static int PLAYER_HEIGHT=120;
     int PLAYER_X = 0;int PLAYER_Y = 0;
-    int PACE_SIZE =3;
+    public static int PACE_SIZE =3;
     int DELAY=200;
     SpriteAnimation animation;
     public Player(ImageView imageView){

@@ -16,7 +16,7 @@ import static java.lang.Math.abs;
 public class GameView {
     Pane test = new Pane();
     boolean letterfind=true;
-    boolean removeGameview=true;
+    boolean goRoom1 =true;
     boolean moveFlower=true;
     boolean keyfind=false;
     boolean enterFatherRoom=false;
@@ -29,7 +29,7 @@ public class GameView {
     ImageView letterView= new ImageView(new Image(getClass().getResourceAsStream("letter.png")));
     Player player=new Player(imageView);
     //static Pane root;
-    public static Pane nowRoot=new Pane();
+    public Pane nowRoot=new Pane();
     private Scene gameScene;
     private Stage gameStage;
     private Stage menuStage;
@@ -124,6 +124,7 @@ public class GameView {
         nowRoot.getChildren().add(textView);letterView.setX(600);letterView.setY(400);
         nowRoot.getChildren().add(flowerView);flowerView.setX(600);flowerView.setY(0);
         createLetterSubScene();
+        int goRoom1PaceX=3,goRoom1PaceY=3;
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -143,17 +144,17 @@ public class GameView {
                     letterfind = true;
                 }
 */
-                if (playerX < 30 && playerY < 200 && playerY > 76 && removeGameview) {
+                if (playerX <=goRoom1PaceX*Player.PACE_SIZE && playerY < 200 && playerY > 76 && goRoom1) {
                     System.out.println("go to room1");
                     Room1View roomView = new Room1View(canOpenBox);
                     roomView.createRoom1(gameStage, player, nowRoot);
-                    removeGameview = false;
+                    goRoom1 = false;
                 }
-                if (playerX < 160 && playerY < 30 && removeGameview&&enterFatherRoom) {
+                if (playerX < 160 && playerY < 30 && goRoom1 &&enterFatherRoom) {
                     System.out.println("go to fatherroom");
                     FatherRoom fatherRoom = new FatherRoom();
                     fatherRoom.createfatherroom(gameStage, player, nowRoot);
-                    removeGameview = false;
+                    goRoom1 = false;
                 }
                 //System.out.println(playerX);
                 player.updateGameView(up, down, right, left);

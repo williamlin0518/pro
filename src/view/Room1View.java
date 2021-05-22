@@ -23,7 +23,7 @@ public class Room1View {
     ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(("playerImageNew.png"))));
     Player player1=new Player(imageView);
 
-    private boolean removeFatherroom=true;
+    private boolean goLivingRoom = true;
     //private boolean canOpenBox;
     private boolean enterFatherRoom;
     private double playerX;
@@ -51,18 +51,18 @@ public class Room1View {
                 if (event.getCode() == KeyCode.S)     { GameView.interAction=false;}
         }});
         root.getChildren().add(player1); ///
-        player1.setTranslateX(0);
+        player1.setTranslateX(Player.PLAYER_WIDTH);
         player1.setTranslateY(GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT);
         AnimationTimer timer=new AnimationTimer() {
             @Override
             public void handle(long now) {
                 playerX=player1.getTranslateX();
                 playerY=player1.getTranslateY();
-                if(playerX==0&&playerY==GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT&&GameView.direction.equals(GameView.Direction.down)&&removeFatherroom){
-                    GameView gameView=new GameView(0,0,enterFatherRoom);
-                    System.out.println("go livingroom");
+                if(playerX==0&&playerY==GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT&&GameView.direction.equals(GameView.Direction.down)&& goLivingRoom){
+                    GameView gameView=new GameView(300,0,enterFatherRoom);
+                    System.out.println("go LivingRoom");
                     gameView.createNewGame(room1Stage);
-                    removeFatherroom=false;
+                    goLivingRoom =false;
                 }
                 if ((abs(playerX+Player.PLAYER_WIDTH-GameView.GAME_WIDTH) == 0) && (abs(playerY) == 0)&&canOpenBox) {
                     System.out.println("open box");
