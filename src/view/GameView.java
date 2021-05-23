@@ -45,9 +45,9 @@ public class GameView {
     public static boolean up=false,down=false,right=false,left=false, isActive =false;
     private double playerX,playerY;
     double letterX =190*Player.UNIT_SIZE, letterY =133*Player.UNIT_SIZE;
-    double noteX =32*Player.UNIT_SIZE, noteY =180*Player.UNIT_SIZE;
+    double noteX =20*Player.UNIT_SIZE, noteY =160*Player.UNIT_SIZE;
     double keyX=210*Player.UNIT_SIZE,keyY=18*Player.UNIT_SIZE;
-    double flowerX=200*Player.UNIT_SIZE,flowerY=0*Player.UNIT_SIZE;
+    double flowerX=0*Player.UNIT_SIZE,flowerY=30*Player.UNIT_SIZE;
     //private double letterX=letterView.getLayoutX();
     //private double letterY=letterView.getLayoutY();
     public GameView(double x,double y,boolean enterFatherRoom) {
@@ -111,7 +111,7 @@ public class GameView {
             }});
         int doorWidth=8*Player.UNIT_SIZE;
         int goRoom1X=3*Player.UNIT_SIZE,goRoom1Y=3*Player.UNIT_SIZE;
-        int goFatherRoomX=3*Player.UNIT_SIZE,goFatherRoomY=10*Player.UNIT_SIZE;
+        int goFatherRoomX=3*Player.UNIT_SIZE,goFatherRoomY=65*Player.UNIT_SIZE;
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -132,7 +132,7 @@ public class GameView {
                 }
 
  */
-                if(isActive&&abs(playerX-noteX)<40*Player.UNIT_SIZE&&abs(playerY- noteY)<7*Player.UNIT_SIZE){
+                if(isActive&&abs(playerX-noteX)<40*Player.UNIT_SIZE&&abs(playerY- noteY)<60*Player.UNIT_SIZE){
                     System.out.println("open note");
                     noteSubScene.moveSubScene();
                     isActive=false;

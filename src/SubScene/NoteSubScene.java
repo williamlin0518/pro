@@ -11,14 +11,14 @@ public class NoteSubScene extends SubScene {
     private boolean isHidden = true;
 
     private final static String FONT_PATH = "src/model/resources/Real Chinese.otf";
-    private final static String BACKGROUND_IMAGE = "\\view\\note.png";
+    private final static String BACKGROUND_IMAGE = "\\view\\openNote.png";
 
     public NoteSubScene() {
-        super(new AnchorPane(), 400, 500);
-        prefWidth(400);
-        prefHeight(500);
+        super(new AnchorPane(), 600, 365);
+        prefWidth(600);
+        prefHeight(365);
 
-        BackgroundImage image = new BackgroundImage(new Image(BACKGROUND_IMAGE, 400, 500, false, true),
+        BackgroundImage image = new BackgroundImage(new Image(BACKGROUND_IMAGE, 600, 365, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         AnchorPane root2 = (AnchorPane) this.getRoot();
@@ -26,7 +26,7 @@ public class NoteSubScene extends SubScene {
         root2.setBackground(new Background(image));
 
         setLayoutX(-500);
-        setLayoutY(100);
+        setLayoutY(-500);
 
     }
 
@@ -37,8 +37,8 @@ public class NoteSubScene extends SubScene {
 
 
         if (isHidden) {
-            transition.setToX(600);
-            transition.setToY(0);
+            transition.setToX(500);
+            transition.setToY(650);
             isHidden = false;
         } else {
             transition.setToX(-600);
