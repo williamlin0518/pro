@@ -61,7 +61,7 @@ public class Room1View {
                     gameView.createNewGame(room1Stage);
                     goLivingRoom =false;
                 }
-                if ((abs(playerX+Player.PLAYER_WIDTH-GameView.GAME_WIDTH) == 0) && (abs(playerY) == 0)&&canOpenBox) {
+                if (GameView.isActive&&(abs(playerX+Player.PLAYER_WIDTH-GameView.GAME_WIDTH) == 0) && (abs(playerY) == 0)&&canOpenBox) {
                     System.out.println("open box");
                     GameView.enterFatherRoom =true;
                 }

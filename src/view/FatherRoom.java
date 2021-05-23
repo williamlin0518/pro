@@ -1,6 +1,7 @@
 package view;
 
 import Player.Player;
+import SubScene.FatherRoomSubScene;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -11,7 +12,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import static java.lang.Math.abs;
-
 public class FatherRoom {
     private boolean isGoLivingRoom=true;
     private Scene gameScene;
@@ -21,6 +21,7 @@ public class FatherRoom {
     ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(("playerImageNew.png"))));
     Player player1=new Player(imageView);
     double playerX,playerY;
+    FatherRoomSubScene boxSubScene;
     public FatherRoom() {
         GameView.isGoFatherRoom =true;
         gameScene = new Scene(root, GameView.GAME_WIDTH, GameView.GAME_HEIGHT);
@@ -33,7 +34,7 @@ public class FatherRoom {
                 if (event.getCode() == KeyCode.DOWN) { GameView.direction= GameView.Direction.down; GameView.down=true;}
                 if (event.getCode() == KeyCode.RIGHT){ GameView.direction= GameView.Direction.right; GameView.right=true;}
                 if (event.getCode() == KeyCode.LEFT) { GameView.direction= GameView.Direction.left; GameView.left=true;}
-                if (event.getCode() == KeyCode.S){;GameView.isActive =false;System.out.println("check");}
+                if (event.getCode() == KeyCode.S){;GameView.isActive =true;System.out.println("check");}
             }});
         gameScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
@@ -47,11 +48,17 @@ public class FatherRoom {
         root.getChildren().add(player1);
         player1.setTranslateX(GameView.GAME_WIDTH-Player.PLAYER_WIDTH);//起始位置
         player1.setTranslateY(GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT);//起始位置
+        double boxX=230*Player.UNIT_SIZE,boxY=0*Player.UNIT_SIZE;
         AnimationTimer timer=new AnimationTimer() {
             @Override
             public void handle(long now) {
                 playerX=player1.getTranslateX();
                 playerY=player1.getTranslateY();
+                if(GameView.isActive&&abs(playerX-boxX)<25*Player.UNIT_SIZE&&abs(playerY-boxY)<25*Player.UNIT_SIZE){
+                    System.out.println("try to lock");
+                    boxSubScene.moveSubScene();
+                    GameView.isActive=false;
+                }
                 if(playerX==GameView.GAME_WIDTH-Player.PLAYER_WIDTH&&playerY==GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT&&GameView.direction.equals(GameView.Direction.right)&& isGoLivingRoom){
                     double playerX=16*Player.UNIT_SIZE,playerY=16*Player.UNIT_SIZE;
                     System.out.println("go to LivingRoom");
@@ -64,6 +71,7 @@ public class FatherRoom {
         };
         timer.start();
         createGameBackground();
+        createFatherRoomSubScene();
     }
     public void createfatherroom(Stage menuStage,Player player,Pane pane){
         //pane.getChildren().remove(player);
@@ -77,8 +85,9 @@ public class FatherRoom {
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
         root.setBackground(new Background(background));
     }
-
-
-
+    private void createFatherRoomSubScene(){
+        boxSubScene=new FatherRoomSubScene(fatherroomStage);
+        root.getChildren().add(boxSubScene);
+    }
 
 }

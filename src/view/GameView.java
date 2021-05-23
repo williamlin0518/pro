@@ -1,6 +1,7 @@
 package view;
 import Player.Player;
 import SubScene.LetterSubScene;
+import SubScene.NoteSubScene;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -23,10 +24,10 @@ public class GameView {
     static boolean enterFatherRoom=false;
     static boolean isOpenBox;
     ImageView imageView=  new ImageView(new Image(getClass().getResourceAsStream("playerImageNew.png")));
-    ImageView textView=   new ImageView(new Image(getClass().getResourceAsStream("text.png")));
+    ImageView noteView =   new ImageView(new Image(getClass().getResourceAsStream("note.png")));
     ImageView flowerView= new ImageView(new Image(getClass().getResourceAsStream("flower.png")));
     ImageView keyView=    new ImageView(new Image(getClass().getResourceAsStream("key.png")));
-    ImageView mailView = new ImageView(new Image(getClass().getResourceAsStream("letter.png")));
+    ImageView letterView = new ImageView(new Image(getClass().getResourceAsStream("letter.png")));
     Player player=new Player(imageView);
     //static Pane root;
     public Pane nowRoot=new Pane();
@@ -35,6 +36,7 @@ public class GameView {
     private Stage menuStage;
     //private Stage fatherroomStage;
     //public MySubscene textSubScene;
+    public NoteSubScene noteSubScene;
     public LetterSubScene letterSubScene;
     public static final int GAME_WIDTH=732;
     public static final int GAME_HEIGHT=648;
@@ -42,8 +44,8 @@ public class GameView {
     public static Direction direction =Direction.down;
     public static boolean up=false,down=false,right=false,left=false, isActive =false;
     private double playerX,playerY;
-    double mailX=190*Player.UNIT_SIZE,mailY=133*Player.UNIT_SIZE;
-    double letterX=30*Player.UNIT_SIZE,letterY=180*Player.UNIT_SIZE;
+    double letterX =190*Player.UNIT_SIZE, letterY =133*Player.UNIT_SIZE;
+    double noteX =32*Player.UNIT_SIZE, noteY =180*Player.UNIT_SIZE;
     double keyX=210*Player.UNIT_SIZE,keyY=18*Player.UNIT_SIZE;
     double flowerX=200*Player.UNIT_SIZE,flowerY=0*Player.UNIT_SIZE;
     //private double letterX=letterView.getLayoutX();
@@ -51,11 +53,12 @@ public class GameView {
     public GameView(double x,double y,boolean enterFatherRoom) {
         playerX=x;playerY=y;
         nowRoot.getChildren().add(player);player.setTranslateX(playerX);player.setTranslateY(playerY);
-        nowRoot.getChildren().add(mailView);mailView.setX(mailX);mailView.setY(mailY);
+        nowRoot.getChildren().add(letterView);letterView.setX(letterX);letterView.setY(letterY);
         nowRoot.getChildren().add(keyView);keyView.setX(keyX);keyView.setY(keyY);
-        nowRoot.getChildren().add(textView);textView.setX(letterX); textView.setY(letterY);
+        nowRoot.getChildren().add(noteView);noteView.setX(noteX); noteView.setY(noteY);
         nowRoot.getChildren().add(flowerView);flowerView.setX(flowerX);flowerView.setY(flowerY);
         createLetterSubScene();
+        createNoteSubScene();
         this.isGoFatherRoom =enterFatherRoom;
         gameScene = new Scene(nowRoot, GAME_WIDTH, GAME_HEIGHT);
         gameStage = new Stage();
@@ -129,6 +132,16 @@ public class GameView {
                 }
 
  */
+                if(isActive&&abs(playerX-noteX)<40*Player.UNIT_SIZE&&abs(playerY- noteY)<7*Player.UNIT_SIZE){
+                    System.out.println("open note");
+                    noteSubScene.moveSubScene();
+                    isActive=false;
+                }
+                if(isActive&&abs(playerX-letterX)<10*Player.UNIT_SIZE&&abs(playerY- letterY)<7*Player.UNIT_SIZE){
+                    System.out.println("open letter");
+                    letterSubScene.moveSubScene();
+                    isActive=false;
+                }
                 if(isActive && isMovableFlower &&abs(flowerX-playerX)<=25*Player.UNIT_SIZE&&abs(flowerY-playerY)<=25*Player.UNIT_SIZE){
                     System.out.println("move flower");
                     double moveFlowerX=0*Player.UNIT_SIZE,moveFlowerY=20*Player.UNIT_SIZE;
@@ -144,7 +157,7 @@ public class GameView {
                     isFindableKey =false;
                     isOpenBox =true;
                 }
-                if(abs(letterX-playerX)<25*Player.UNIT_SIZE &&abs(letterY-playerY)<25*Player.UNIT_SIZE){
+                if(abs(noteX -playerX)<25*Player.UNIT_SIZE &&abs(noteY -playerY)<25*Player.UNIT_SIZE){
                     letterSubScene.moveSubScene();
 
                 }
@@ -187,20 +200,15 @@ public class GameView {
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
         nowRoot.setBackground(new Background(background));
     }
-
-/*
-    private void createTextSubScene() {
-        textSubScene = new MySubscene();
-        nowRoot.getChildren().add(textSubScene);
-    }
-*/
     private void createLetterSubScene(){
         letterSubScene=new LetterSubScene();
         nowRoot.getChildren().add(letterSubScene);
     }
-//    private void disappearLetterSubScene(){
-//        letterSubScene.moveSubScene();
-//    }
+
+    private void createNoteSubScene(){
+        noteSubScene=new NoteSubScene();
+        nowRoot.getChildren().add(noteSubScene);
+    }
 
 
 
