@@ -11,6 +11,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import static java.lang.Math.abs;
+
 public class FatherRoom {
 
     private Scene gameScene;
@@ -29,9 +31,7 @@ public class FatherRoom {
     private boolean down=false;
     private boolean right=false;
     private boolean left=false;
-
-    private double playerX;
-    private double playerY;
+    double playerX=GAME_WIDTH-3*Player.PACE_SIZE,playerY=GAME_HEIGHT-3*Player.PACE_SIZE;
 
     private boolean removeFatherRoom=true;
 
@@ -39,68 +39,40 @@ public class FatherRoom {
         gameScene = new Scene(root, GAME_WIDTH, GAME_HEIGHT);
         fatherroomStage = new Stage();
         fatherroomStage.setScene(gameScene);
-
         gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.UP){
-                    up=true;
+                if (event.getCode() == KeyCode.UP)   { GameView.direction= GameView.Direction.up;up=true;}
+                if (event.getCode() == KeyCode.DOWN) { GameView.direction= GameView.Direction.down; down=true;}
+                if (event.getCode() == KeyCode.RIGHT){ GameView.direction= GameView.Direction.right; right=true;}
+                if (event.getCode() == KeyCode.LEFT) { GameView.direction= GameView.Direction.left; left=true;}
+                if (event.getCode() == KeyCode.S){
+                    System.out.println("check");
                 }
-                if (event.getCode() == KeyCode.DOWN){
-                    down=true;
-                }
-                if (event.getCode() == KeyCode.RIGHT){
-                    right=true;
-                }
-                if (event.getCode() == KeyCode.LEFT){
-                    left=true;
-                }
-
-            }
-        });
+            }});
         gameScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.UP) {
-                    up = false;
-                }
-                if (event.getCode() == KeyCode.DOWN) {
-                    down = false;
-                }
-                if (event.getCode() == KeyCode.RIGHT) {
-                    right = false;
-                }
-                if (event.getCode() == KeyCode.LEFT) {
-                    left = false;
-                }
-
-            }
-        });
-        root.getChildren().add(player1); ///
-
-        player1.setTranslateX(890);
-        player1.setTranslateY(700);
-
+                if (event.getCode() == KeyCode.UP)    { up=false; }
+                if (event.getCode() == KeyCode.DOWN)  { down=false; }
+                if (event.getCode() == KeyCode.RIGHT) { right=false; }
+                if (event.getCode() == KeyCode.LEFT)  { left=false; }
+                if (event.getCode() == KeyCode.S)    { GameView.interAction=false;}
+            }});
+        root.getChildren().add(player1);
+        player1.setTranslateX(playerX);
+        player1.setTranslateY(playerY);
         AnimationTimer timer=new AnimationTimer() {
             @Override
             public void handle(long now) {
-
-
                 playerX=player1.getTranslateX();
                 playerY=player1.getTranslateY();
-
-
-                if(playerX>891&&playerY>701&&removeFatherRoom){
-                    System.out.println("go to livingroom");
-                    GameView gameView=new GameView(162,31,true);
-
+                if(playerX==GAME_WIDTH&&playerY==GAME_HEIGHT&&removeFatherRoom){
+                    System.out.println("go to LivingRoom");
+                    GameView gameView=new GameView((int)GameView.playerX,(int)GameView.playerY,true);
                     gameView.createNewGame(fatherroomStage);
-
                     removeFatherRoom=false;
-
                 }
-
-
                 player1.updateGameView(up,down,right,left);
             }
         };
@@ -128,7 +100,7 @@ public class FatherRoom {
     }
 
     private void createGameBackground(){
-        Image backgroundImage= new Image("\\view\\fatherroom.png",1024,800,false,true);
+        Image backgroundImage= new Image("\\view\\fatherroom.png",GAME_HEIGHT,GAME_WIDTH,false,true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
         root.setBackground(new Background(background));
     }

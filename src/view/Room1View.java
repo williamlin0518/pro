@@ -59,7 +59,7 @@ public class Room1View {
                 playerX=player1.getTranslateX();
                 playerY=player1.getTranslateY();
                 if(playerX==0&&playerY==GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT&&GameView.direction.equals(GameView.Direction.down)&& goLivingRoom){
-                    GameView gameView=new GameView(300,0,enterFatherRoom);
+                    GameView gameView=new GameView((int)GameView.playerX,(int)GameView.playerY,enterFatherRoom);
                     System.out.println("go LivingRoom");
                     gameView.createNewGame(room1Stage);
                     goLivingRoom =false;

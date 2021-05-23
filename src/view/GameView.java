@@ -17,8 +17,8 @@ public class GameView {
     Pane test = new Pane();
     boolean letterfind=true;
     boolean goRoom1 =true;
-    boolean moveFlower=true;
-    boolean keyfind=false;
+    boolean canMoveFlower =true;
+    boolean canFindKey =false;
     boolean enterFatherRoom=false;
     boolean canOpenBox;
     ImageView imageView=  new ImageView(new Image(getClass().getResourceAsStream("playerImageNew.png")));
@@ -26,7 +26,7 @@ public class GameView {
     ImageView textView=   new ImageView(new Image(getClass().getResourceAsStream("text.png")));
     ImageView flowerView= new ImageView(new Image(getClass().getResourceAsStream("flower.png")));
     ImageView keyView=    new ImageView(new Image(getClass().getResourceAsStream("key.png")));
-    ImageView letterView= new ImageView(new Image(getClass().getResourceAsStream("letter.png")));
+    ImageView mailView = new ImageView(new Image(getClass().getResourceAsStream("letter.png")));
     Player player=new Player(imageView);
     //static Pane root;
     public Pane nowRoot=new Pane();
@@ -41,10 +41,20 @@ public class GameView {
     public enum Direction {left, right, up, down}
     public static Direction direction =Direction.down;
     public static boolean up=false,down=false,right=false,left=false,interAction=false;
-    private double playerX,playerY;
+    public static double playerX=20*Player.PACE_SIZE,playerY=20*Player.PACE_SIZE;
+    double mailX=190*Player.PACE_SIZE,mailY=133*Player.PACE_SIZE;
+    double letterX=30*Player.PACE_SIZE,letterY=180*Player.PACE_SIZE;
+    double keyX=210*Player.PACE_SIZE,keyY=18*Player.PACE_SIZE;
+    double flowerX=200*Player.PACE_SIZE,flowerY=0*Player.PACE_SIZE;
     //private double letterX=letterView.getLayoutX();
     //private double letterY=letterView.getLayoutY();
     public GameView(int x,int y,boolean enterFatherRoom) {
+        nowRoot.getChildren().add(player);player.setTranslateX(playerX);player.setTranslateY(playerY);
+        nowRoot.getChildren().add(mailView);mailView.setX(mailX);mailView.setY(mailY);
+        nowRoot.getChildren().add(keyView);keyView.setX(keyX);keyView.setY(keyY);
+        nowRoot.getChildren().add(textView);textView.setX(letterX); textView.setY(letterY);
+        nowRoot.getChildren().add(flowerView);flowerView.setX(flowerX);flowerView.setY(flowerY);
+        createLetterSubScene();
         this.enterFatherRoom=enterFatherRoom;
         gameScene = new Scene(nowRoot, GAME_WIDTH, GAME_HEIGHT);
         gameStage = new Stage();
@@ -84,29 +94,28 @@ public class GameView {
                 if (event.getCode() == KeyCode.DOWN) { direction=Direction.down; down=true;}
                 if (event.getCode() == KeyCode.RIGHT){ direction=Direction.right; right=true;}
                 if (event.getCode() == KeyCode.LEFT) { direction=Direction.left; left=true;}
-                if (event.getCode() == KeyCode.S)
-                    if (event.getCode() == KeyCode.S) {
-                        System.out.println("check");
-                        if((moveFlower==true)&&abs(playerX)==GAME_WIDTH-Player.PLAYER_WIDTH&&abs(playerY)==0){
-                            System.out.println("move flower");
-                            flowerView.setTranslateX(10);
-                            flowerView.setTranslateY(60);
-                            flowerView.setRotate(90);
-                            moveFlower=false;
-                            keyfind=true;
-                        }
-                        if(keyfind==true&&abs(playerX)==GameView.GAME_WIDTH-Player.PLAYER_WIDTH&&abs(playerY)==0){
-                            System.out.println("pick key");
-                            keyView.setVisible(false);
-                            canOpenBox=true;
-                        }
-                        if(abs(playerX-600)<30&&abs(playerY-400)<30){
-                            letterSubScene.moveSubScene();
-
-                        }
+                if (event.getCode() == KeyCode.S){
+                    System.out.println("check");
+                    if((canMoveFlower ==true)&&abs(playerX)==GAME_WIDTH-Player.PLAYER_WIDTH&&abs(playerY)==0){
+                        System.out.println("move flower");
+                        double moveFlowerX=0*Player.PACE_SIZE,moveFlowerY=20*Player.PACE_SIZE;
+                        flowerView.setTranslateX(moveFlowerX);
+                        flowerView.setTranslateY(moveFlowerY);
+                        flowerView.setRotate(90);
+                        canMoveFlower =false;
+                        canFindKey =true;
                     }
-            }
-        });
+                    if(canFindKey ==true&&abs(playerX)==GameView.GAME_WIDTH-Player.PLAYER_WIDTH&&abs(playerY)==0){
+                        System.out.println("pick key");
+                        keyView.setVisible(false);
+                        canOpenBox=true;
+                    }
+                    if(abs(playerX-letterX)<5*Player.PACE_SIZE&&abs(playerY-letterY)<5*Player.PACE_SIZE){
+                        letterSubScene.moveSubScene();
+
+                    }
+                }
+        }});
         gameScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -116,15 +125,9 @@ public class GameView {
                 if (event.getCode() == KeyCode.LEFT)  { left=false; }
                 if (event.getCode() == KeyCode.S)    { interAction=false;}
             }});
-        nowRoot.getChildren().add(player);
-        player.setTranslateX(x);
-        player.setTranslateY(y);
-        nowRoot.getChildren().add(letterView);textView.setX(100); textView.setY(593);
-        nowRoot.getChildren().add(keyView);keyView.setX(600);keyView.setY(6);
-        nowRoot.getChildren().add(textView);letterView.setX(600);letterView.setY(400);
-        nowRoot.getChildren().add(flowerView);flowerView.setX(600);flowerView.setY(0);
-        createLetterSubScene();
+        int doorWidthPace=Player.PLAYER_HEIGHT;
         int goRoom1PaceX=3,goRoom1PaceY=3;
+        int goFatherRoomPaceX=3,goFatherRoomPaceY=3;
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -144,17 +147,19 @@ public class GameView {
                     letterfind = true;
                 }
 */
-                if (playerX <=goRoom1PaceX*Player.PACE_SIZE && playerY < 200 && playerY > 76 && goRoom1) {
+                if (playerX <=goRoom1PaceX*Player.PACE_SIZE && playerY > goRoom1PaceY && playerY < goRoom1PaceY+Player.PLAYER_HEIGHT&& goRoom1) {
                     System.out.println("go to room1");
                     Room1View roomView = new Room1View(canOpenBox);
                     roomView.createRoom1(gameStage, player, nowRoot);
                     goRoom1 = false;
+                    GameView.direction=null;
                 }
-                if (playerX < 160 && playerY < 30 && goRoom1 &&enterFatherRoom) {
-                    System.out.println("go to fatherroom");
+                if (playerX >=goFatherRoomPaceX*Player.PACE_SIZE && playerX<=goFatherRoomPaceX*Player.PACE_SIZE+doorWidthPace*Player.PACE_SIZE&&playerY ==0&& goRoom1 &&enterFatherRoom) {
+                    System.out.println("go to FatherRoom");
                     FatherRoom fatherRoom = new FatherRoom();
                     fatherRoom.createfatherroom(gameStage, player, nowRoot);
                     goRoom1 = false;
+                    GameView.direction=null;
                 }
                 //System.out.println(playerX);
                 player.updateGameView(up, down, right, left);
