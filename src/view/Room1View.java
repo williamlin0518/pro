@@ -22,6 +22,7 @@ public class Room1View {
     Player playerRoom1 =new Player(imageView);
     private boolean goLivingRoom = true;
     //private boolean canOpenBox;
+    private boolean enterFatherRoom;
     private double playerX;
     private double playerY;
     public Room1View(boolean canOpenBox) {
@@ -35,7 +36,7 @@ public class Room1View {
                 if (event.getCode() == KeyCode.DOWN) { GameView.direction= GameView.Direction.down; GameView.down=true;}
                 if (event.getCode() == KeyCode.RIGHT){ GameView.direction= GameView.Direction.right; GameView.right=true;}
                 if (event.getCode() == KeyCode.LEFT) { GameView.direction= GameView.Direction.left; GameView.left=true;}
-                if (event.getCode() == KeyCode.S)    { GameView.isActive =true;}
+                if (event.getCode() == KeyCode.S)    { GameView.interAction=true;}
             }});
         gameScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
@@ -44,7 +45,7 @@ public class Room1View {
                 if (event.getCode() == KeyCode.DOWN)  { GameView.down=false; }
                 if (event.getCode() == KeyCode.RIGHT) { GameView.right=false; }
                 if (event.getCode() == KeyCode.LEFT)  { GameView.left=false; }
-                if (event.getCode() == KeyCode.S)     { GameView.isActive =false;}
+                if (event.getCode() == KeyCode.S)     { GameView.interAction=false;}
         }});
         root.getChildren().add(playerRoom1);
         playerRoom1.setTranslateX(Player.PLAYER_WIDTH);//起始位置
@@ -55,15 +56,15 @@ public class Room1View {
                 playerX= playerRoom1.getTranslateX();
                 playerY= playerRoom1.getTranslateY();
                 if(playerX==0&&playerY==GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT&&GameView.direction.equals(GameView.Direction.down)&& goLivingRoom){
-                    double playerX=16*Player.UNIT_SIZE,playerY=16*Player.UNIT_SIZE;
-                    GameView gameView=new GameView(playerX,playerY,GameView.enterFatherRoom);
+                    double playerX=16*Player.PACE_SIZE,playerY=16*Player.PACE_SIZE;
+                    GameView gameView=new GameView(playerX,playerY,enterFatherRoom);
                     System.out.println("go LivingRoom");
                     gameView.createNewGame(room1Stage);
                     goLivingRoom =false;
                 }
                 if ((abs(playerX+Player.PLAYER_WIDTH-GameView.GAME_WIDTH) == 0) && (abs(playerY) == 0)&&canOpenBox) {
                     System.out.println("open box");
-                    GameView.enterFatherRoom =true;
+                    enterFatherRoom =true;
                 }
                 playerRoom1.updateRoom1(GameView.up,GameView.down,GameView.right,GameView.left);
             }
@@ -78,7 +79,7 @@ public class Room1View {
     }
 
     private void createGameBackground(){
-        Image backgroundImage= new Image("\\view\\room1.png",GameView.GAME_WIDTH,GameView.GAME_HEIGHT,false,true);
+        Image backgroundImage= new Image("file:/Users/linchengwei/IdeaProjects/Space/src/view/room1.png",GameView.GAME_WIDTH,GameView.GAME_HEIGHT,false,true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
         root.setBackground(new Background(background));
     }
