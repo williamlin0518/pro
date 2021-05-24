@@ -1,7 +1,10 @@
 package view;
 
 import Player.Player;
+import Setting.Setting;
+import SubScene.SettingSubScene;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,10 +28,35 @@ public class Room1View {
     private boolean enterFatherRoom;
     private double playerX;
     private double playerY;
+    private Setting settingButton;
+    SettingSubScene settingSubScene;
     public Room1View(boolean canOpenBox) {
+
         gameScene = new Scene(root, GameView.GAME_WIDTH, GameView.GAME_HEIGHT);
         room1Stage = new Stage();
         room1Stage.setScene(gameScene);
+
+        settingButton =new Setting();
+
+//        settingButton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                GameView gameView=new GameView(870,680,false);
+//                gameView.createNewGame(room1Stage);
+//            }
+//        });
+
+        settingButton.setOnAction(new EventHandler<ActionEvent>() {        //will
+
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                settingSubScene.moveSubScene();
+                System.out.println("setting");
+
+
+            }
+        });
+
         gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -48,6 +76,9 @@ public class Room1View {
                 if (event.getCode() == KeyCode.S)     { GameView.interAction=false;}
         }});
         root.getChildren().add(playerRoom1);
+        root.getChildren().add(settingButton);
+
+
         playerRoom1.setTranslateX(Player.PLAYER_WIDTH);//起始位置
         playerRoom1.setTranslateY(GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT);//起始位置
         AnimationTimer timer=new AnimationTimer() {
@@ -71,6 +102,7 @@ public class Room1View {
         };
         timer.start();
         createGameBackground();
+        createSettingSubScene();//
     }
     public void createRoom1(Stage menuStage,Player player,Pane pane){
         this.livingStage=menuStage;
@@ -82,6 +114,11 @@ public class Room1View {
         Image backgroundImage= new Image("file:/Users/linchengwei/IdeaProjects/Space/src/view/room1.png",GameView.GAME_WIDTH,GameView.GAME_HEIGHT,false,true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
         root.setBackground(new Background(background));
+    }
+
+    private void createSettingSubScene(){
+        settingSubScene=new SettingSubScene();                //will
+        root.getChildren().add(settingSubScene);
     }
 
 

@@ -1,15 +1,22 @@
 package view;
 import Player.Player;
+import Setting.Setting;
 import SubScene.LetterSubScene;
 import SubScene.NoteSubScene;
+import SubScene.SettingSubScene;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 //import model.MySubscene;
 //import view.FatherRoom;
@@ -28,16 +35,27 @@ public class GameView {
     ImageView flowerView= new ImageView(new Image(getClass().getResourceAsStream("flower.png")));
     ImageView keyView=    new ImageView(new Image(getClass().getResourceAsStream("key.png")));
     ImageView letterView = new ImageView(new Image(getClass().getResourceAsStream("letter.png")));
+    //ImageView settingView = new ImageView(new Image(getClass().getResourceAsStream("setting.png")));  //will
+    ImageView keyLabel=new ImageView(new Image(getClass().getResourceAsStream("keyLabel.png")));
+    ImageView letterLabel=new ImageView(new Image(getClass().getResourceAsStream("letterLabel.png")));
+    ImageView noteLabel=new ImageView(new Image(getClass().getResourceAsStream("noteLabel.png")));
+    ImageView labelEmpty =new ImageView(new Image(getClass().getResourceAsStream("keyLabelEmpty.png")));
+    ImageView labelEmpty1 =new ImageView(new Image(getClass().getResourceAsStream("keyLabelEmpty.png")));
+    ImageView labelEmpty2 =new ImageView(new Image(getClass().getResourceAsStream("keyLabelEmpty.png")));
+    //BackgroundImage labelbackground=new BackgroundImage(new Image(getClass().getResourceAsStream("keyLabel.png")), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
+
     Player player=new Player(imageView);
     //static Pane root;
     public Pane nowRoot=new Pane();
     private Scene gameScene;
     private Stage gameStage;
     private Stage menuStage;
+    private Setting settingButton; // will
     //private Stage fatherroomStage;
     //public MySubscene textSubScene;
     public NoteSubScene noteSubScene;
     public LetterSubScene letterSubScene;
+    public SettingSubScene settingSubScene;    //will
     public static final int GAME_WIDTH=732;
     public static final int GAME_HEIGHT=648;
     public enum Direction {left, right, up, down}
@@ -50,6 +68,14 @@ public class GameView {
     double flowerX=200*Player.PACE_SIZE,flowerY=0*Player.PACE_SIZE;
     //private double letterX=letterView.getLayoutX();
     //private double letterY=letterView.getLayoutY();
+    private Label keyLabelPane =new Label();
+    private Label letterLabelPane=new Label();                             //will
+    private Label noteLabelPane=new Label();
+
+
+    public TextArea textArea=new TextArea("In living room");
+    //private Button settingButton=new Button();
+    //
     public GameView(double x,double y,boolean enterFatherRoom) {
         playerX=x;playerY=y;
         nowRoot.getChildren().add(player);player.setTranslateX(playerX);player.setTranslateY(playerY);
@@ -62,13 +88,21 @@ public class GameView {
         createLetterSubScene();
         createNoteSubScene();
         this.enterFatherRoom=enterFatherRoom;
-        gameScene = new Scene(nowRoot, GAME_WIDTH, GAME_HEIGHT);
+        gameScene = new Scene(nowRoot, GAME_WIDTH+200, GAME_HEIGHT);
+        gameScene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());   //will
         gameStage = new Stage();
         gameStage.setScene(gameScene);
         //createLetterSubScenes();
         //createKeyListeners();
 //        gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 //            @Override
+//        EventHandler<KeyEvent> filter = new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent event) {
+//
+//                event.consume();}
+//
+//        };
 //            public void handle(KeyEvent event) {
 //                if (event.getCode() == KeyCode.UP) {
 //                    up = true;
@@ -76,6 +110,65 @@ public class GameView {
 //                if (event.getCode() == KeyCode.DOWN) {
 //                    down = true;
 //                }
+        keyLabelPane.setPrefSize(100,100);
+        keyLabelPane.setLayoutX(732);
+        keyLabelPane.setLayoutY(0);
+
+        keyLabelPane.setGraphic(labelEmpty);
+        keyLabelPane.setEffect(new DropShadow(1.0, Color.BLACK));
+
+
+
+        letterLabelPane.setPrefSize(100,100);
+        letterLabelPane.setLayoutX(732);
+        letterLabelPane.setLayoutY(100);
+
+        letterLabelPane.setGraphic(labelEmpty1);
+        letterLabelPane.setEffect(new DropShadow(1.0, Color.BLACK));
+
+
+        noteLabelPane.setPrefSize(100,100);
+        noteLabelPane.setLayoutX(832);
+        noteLabelPane.setLayoutY(100);
+
+        noteLabelPane.setGraphic(labelEmpty2);
+        noteLabelPane.setEffect(new DropShadow(1.0, Color.YELLOW));
+        //label1.setBackground(new Background(labelbackground));
+        textArea.setTranslateX(732);
+        textArea.setTranslateY(200);
+        textArea.setPrefSize(200,548);                                       //will
+        textArea.setEditable(false);
+        textArea.setFocusTraversable(false);
+        textArea.setStyle("-fx-font-alignment: left");
+
+
+        settingButton =new Setting();
+        settingButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                settingSubScene.moveSubScene();
+                System.out.println("setting");
+
+
+            }
+        });
+
+        nowRoot.getChildren().add(textArea);
+        nowRoot.getChildren().add(keyLabelPane);
+        nowRoot.getChildren().add(letterLabelPane);
+        nowRoot.getChildren().add(noteLabelPane);
+        nowRoot.getChildren().add(settingButton);
+
+
+
+
+
+
+
+        //textArea.setBackground();
+        //nowRoot.getChildren().add(textArea);
+
 //                if (event.getCode() == KeyCode.RIGHT) {
 //                    right = true;
 //                }
@@ -96,15 +189,21 @@ public class GameView {
         gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.UP)   { direction=Direction.up;up=true;}
+                if (event.getCode() == KeyCode.UP)   {
+                    System.out.println("up");
+                    direction=Direction.up;up=true;}
                 if (event.getCode() == KeyCode.DOWN) { direction=Direction.down; down=true;}
                 if (event.getCode() == KeyCode.RIGHT){ direction=Direction.right; right=true;}
                 if (event.getCode() == KeyCode.LEFT) { direction=Direction.left; left=true;}
                 if (event.getCode() == KeyCode.S){
+                    textArea.appendText("\n");
+                    textArea.appendText("check");
                     System.out.println("check");
                     System.out.println(playerX+" , "+playerY);
                     if((canMoveFlower ==true)&&abs(playerX)==GAME_WIDTH-Player.PLAYER_WIDTH&&abs(playerY)==0){
                         System.out.println("move flower");
+
+                        textArea.appendText("\nmove flower");
                         double moveFlowerX=0*Player.PACE_SIZE,moveFlowerY=20*Player.PACE_SIZE;
                         flowerView.setTranslateX(moveFlowerX);
                         flowerView.setTranslateY(moveFlowerY);
@@ -114,18 +213,24 @@ public class GameView {
                     }
                     if(canFindKey ==true&&abs(playerX)==GameView.GAME_WIDTH-Player.PLAYER_WIDTH&&abs(playerY)==0){
                         System.out.println("pick key");
+                        textArea.appendText("\npick key");
                         keyView.setVisible(false);
                         canOpenBox=true;
+                        keyLabelPane.setGraphic(keyLabel);
                     }
 
                     if(abs(playerX-noteX)<40*Player.PACE_SIZE&&abs(playerY- noteY)<7*Player.PACE_SIZE){
-                        System.out.println("open note");
+                        textArea.appendText("\nopen note");
+                        System.out.println("open Map");
                         noteSubScene.moveSubScene();
+                        noteLabelPane.setGraphic(noteLabel);
 
                     }
                     if(abs(playerX-letterX)<10*Player.PACE_SIZE&&abs(playerY- letterY)<7*Player.PACE_SIZE){
                         System.out.println("open letter");
+                        textArea.appendText("\nopen letter");
                         letterSubScene.moveSubScene();
+                        letterLabelPane.setGraphic(letterLabel);
 
                     }
                 }
@@ -145,6 +250,7 @@ public class GameView {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+
                 playerX = player.getTranslateX();
                 playerY = player.getTranslateY();
                 //System.out.println(playerX +"+"+ playerY);
@@ -181,6 +287,8 @@ public class GameView {
         };
         timer.start();
         createGameBackground();
+        createSettingSubScene();      // will
+
     }
 
     public void createNewGame(Stage menuStage,Player player,Pane pane){
@@ -215,6 +323,11 @@ public class GameView {
     private void createNoteSubScene(){
         noteSubScene=new NoteSubScene();
         nowRoot.getChildren().add(noteSubScene);
+    }
+
+    private void createSettingSubScene(){
+        settingSubScene=new SettingSubScene();                //will
+        nowRoot.getChildren().add(settingSubScene);
     }
 //    private void disappearLetterSubScene(){
 //        letterSubScene.moveSubScene();
