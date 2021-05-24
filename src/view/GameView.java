@@ -20,14 +20,17 @@ public class GameView {
     boolean isGoRoom1 =true;
     boolean isMovableFlower =true;
     boolean isFindableKey =false;
+     boolean openHole = false;//Hunk0524
     static boolean isGoFatherRoom =false;
     static boolean enterFatherRoom=false;
     static boolean isOpenBox;
     ImageView imageView=  new ImageView(new Image(getClass().getResourceAsStream("playerImageNew.png")));
     ImageView noteView =   new ImageView(new Image(getClass().getResourceAsStream("note.png")));
     ImageView flowerView= new ImageView(new Image(getClass().getResourceAsStream("flower.png")));
-    ImageView keyView=    new ImageView(new Image(getClass().getResourceAsStream("key.png")));
+    
     ImageView letterView = new ImageView(new Image(getClass().getResourceAsStream("letter.png")));
+    ImageView keyView=  new ImageView(new Image(getClass().getResourceAsStream("keyInHole.png")));//Hunk0524
+    ImageView holeView = new ImageView(new Image(getClass().getResourceAsStream("openHole.png")));//Hunk0524
     Player player=new Player(imageView);
     //static Pane root;
     public Pane nowRoot=new Pane();
@@ -46,7 +49,8 @@ public class GameView {
     private double playerX,playerY;
     double letterX =190*Player.UNIT_SIZE, letterY =133*Player.UNIT_SIZE;
     double noteX =20*Player.UNIT_SIZE, noteY =160*Player.UNIT_SIZE;
-    double keyX=210*Player.UNIT_SIZE,keyY=18*Player.UNIT_SIZE;
+    double keyX=210*Player.UNIT_SIZE,keyY=15*Player.UNIT_SIZE;//Hunk0524
+    double holeX = 210*Player.UNIT_SIZE,holeY=15*Player.UNIT_SIZE;//Hunk0524
     double flowerX=0*Player.UNIT_SIZE,flowerY=30*Player.UNIT_SIZE;
     //private double letterX=letterView.getLayoutX();
     //private double letterY=letterView.getLayoutY();
@@ -57,6 +61,9 @@ public class GameView {
         nowRoot.getChildren().add(keyView);keyView.setX(keyX);keyView.setY(keyY);
         nowRoot.getChildren().add(noteView);noteView.setX(noteX); noteView.setY(noteY);
         nowRoot.getChildren().add(flowerView);flowerView.setX(flowerX);flowerView.setY(flowerY);
+        nowRoot.getChildren().add(holeView);holeView.setX(holeX);holeView.setY(holeY);//Hunk0524
+        holeView.setVisible(false);//Hunk0524
+        keyView.setVisible(false);//Hunk0524
         createLetterSubScene();
         createNoteSubScene();
         this.isGoFatherRoom =enterFatherRoom;
@@ -131,11 +138,33 @@ public class GameView {
                     letterfind = true;
                 }
 
- */
+ */             
+                
+               
+                
+                if(isActive && openHole &&abs(keyX-playerX)<=25*Player.UNIT_SIZE&&abs(keyY-playerY)<=25*Player.UNIT_SIZE) {
+                	 System.out.println("open hole");
+                	 
+                	 keyView.setVisible(true);
+                	 
+                	 isFindableKey =true;
+                	 isActive = false;
+                	 openHole = false;
+                }//Hunk0524
+                if(isActive && isFindableKey  &&abs(holeX-playerX)<=25*Player.UNIT_SIZE&&abs(holeY-playerY)<=50*Player.UNIT_SIZE) {
+               	 System.out.println("pick key");
+               	 keyView.setVisible(false);
+               	 holeView.setVisible(true);
+               	 isOpenBox =true;
+               	 isActive = false;
+               }//Hunk0524
                 if(isActive&&abs(playerX-noteX)<40*Player.UNIT_SIZE&&abs(playerY- noteY)<60*Player.UNIT_SIZE){
                     System.out.println("open note");
+                     System.out.println("can open hole");//Hunk0524
                     noteSubScene.moveSubScene();
+                     openHole = true;//Hunk0524
                     isActive=false;
+                    
                 }
                 if(isActive&&abs(playerX-letterX)<10*Player.UNIT_SIZE&&abs(playerY- letterY)<7*Player.UNIT_SIZE){
                     System.out.println("open letter");
@@ -149,14 +178,14 @@ public class GameView {
                     flowerView.setTranslateY(moveFlowerY);
                     flowerView.setRotate(90);
                     isMovableFlower =false;
-                    isFindableKey =true;
+                    //isFindableKey =true;//Hunk0524
                 }
-                if(isActive &&!isMovableFlower && isFindableKey &&abs(keyX-playerX)<=25*Player.UNIT_SIZE&&abs(keyY-playerY)<=25*Player.UNIT_SIZE){
+                /*if(isActive &&!isMovableFlower && isFindableKey &&abs(keyX-playerX)<=25*Player.UNIT_SIZE&&abs(keyY-playerY)<=25*Player.UNIT_SIZE){
                     System.out.println("pick key");
                     keyView.setVisible(false);
                     isFindableKey =false;
                     isOpenBox =true;
-                }
+                }*///Hunk0524
                 if(abs(noteX -playerX)<25*Player.UNIT_SIZE &&abs(noteY -playerY)<25*Player.UNIT_SIZE){
                     letterSubScene.moveSubScene();
 
