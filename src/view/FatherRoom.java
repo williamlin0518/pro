@@ -88,7 +88,7 @@ public class FatherRoom {
         fatherroomStage.show();
     }
     private void createGameBackground(){
-        Image backgroundImage= new Image("file:/Users/linchengwei/IdeaProjects/Space/src/view/fatherroom.png",GameView.GAME_HEIGHT,GameView.GAME_WIDTH,false,true);
+        Image backgroundImage= new Image("file:/Users/linchengwei/IdeaProjects/Space/src/view/fatherroom.png",GameView.GAME_WIDTH,GameView.GAME_HEIGHT,false,true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
         root.setBackground(new Background(background));
     }
