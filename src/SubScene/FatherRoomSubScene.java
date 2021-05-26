@@ -18,6 +18,7 @@ public class FatherRoomSubScene extends SubScene {
     Button button3 = new Button("3");
     Button buttonEnter = new Button("輸入");
 
+
     Stage fatherRoomStage;
     boolean isPressedButton1;
     boolean isPressedButton2;

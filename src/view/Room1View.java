@@ -1,7 +1,10 @@
 package view;
 
 import Player.Player;
+import Setting.Setting;
+import SubScene.SettingSubScene;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -24,10 +27,28 @@ public class Room1View {
     //private boolean canOpenBox;
     private double playerX;
     private double playerY;
+    private Setting settingButton;
+    SettingSubScene settingSubScene;
     public Room1View(boolean canOpenBox) {
-        gameScene = new Scene(root, GameView.GAME_WIDTH, GameView.GAME_HEIGHT);
+        gameScene = new Scene(root, GameView.GAME_WIDTH+200, GameView.GAME_HEIGHT);
         room1Stage = new Stage();
         room1Stage.setScene(gameScene);
+        settingButton =new Setting();
+
+//        settingButton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                GameView gameView=new GameView(870,680,false);
+//                gameView.createNewGame(room1Stage);
+//            }
+//        });
+        settingButton.setOnAction(new EventHandler<ActionEvent>() {        //will
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                settingSubScene.moveSubScene();
+                System.out.println("setting");
+            }
+        });
         gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -49,27 +70,30 @@ public class Room1View {
         root.getChildren().add(playerRoom1);
         playerRoom1.setTranslateX(Player.PLAYER_WIDTH);//起始位置
         playerRoom1.setTranslateY(GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT);//起始位置
+        int boxX=GameView.GAME_WIDTH,boxY=0;
         AnimationTimer timer=new AnimationTimer() {
             @Override
             public void handle(long now) {
                 playerX= playerRoom1.getTranslateX();
                 playerY= playerRoom1.getTranslateY();
-                if(playerX==0&&playerY==GameView.GAME_HEIGHT-Player.PLAYER_HEIGHT&&GameView.direction.equals(GameView.Direction.down)&& goLivingRoom){
+                if(playerX<=50*Player.UNIT_SIZE&&playerY>=GameView.GAME_HEIGHT-50*Player.UNIT_SIZE&&GameView.direction.equals(GameView.Direction.down)&& goLivingRoom){
                     double playerX=16*Player.UNIT_SIZE,playerY=16*Player.UNIT_SIZE;
                     GameView gameView=new GameView(playerX,playerY,GameView.enterFatherRoom);
                     System.out.println("go LivingRoom");
                     gameView.createNewGame(room1Stage);
                     goLivingRoom =false;
                 }
-                if (GameView.isActive&&(abs(playerX+Player.PLAYER_WIDTH-GameView.GAME_WIDTH) == 0) && (abs(playerY) == 0)&&canOpenBox) {
+                if (GameView.isActive&&(abs(playerX-boxX)<50*Player.UNIT_SIZE) && (abs(playerY-boxY)<=50*Player.UNIT_SIZE)&&canOpenBox) {
                     System.out.println("open box");
                     GameView.enterFatherRoom =true;
+                    GameView.isActive=false;
                 }
                 playerRoom1.updateRoom1(GameView.up,GameView.down,GameView.right,GameView.left);
             }
         };
         timer.start();
         createGameBackground();
+        createSettingSubScene();
     }
     public void createRoom1(Stage menuStage,Player player,Pane pane){
         this.livingStage=menuStage;
@@ -82,10 +106,10 @@ public class Room1View {
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
         root.setBackground(new Background(background));
     }
-
-
-
-
+    private void createSettingSubScene(){
+        settingSubScene=new SettingSubScene();                //will
+        root.getChildren().add(settingSubScene);
+    }
 }
 
 
