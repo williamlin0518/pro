@@ -17,7 +17,7 @@ public class Main extends Application {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("StartScene.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setTitle("FinalProject");
 			stage.setScene(scene);
 			stage.show();
@@ -27,13 +27,13 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
-		File f = new File("C:\\music2.mp3");
+		/*File f = new File("C:\\music2.mp3");
 	 	Media media = new Media(f.toURI().toString());
 	 	final JFXPanel fxPanel = new JFXPanel();
    		MediaPlayer mediaPlayer = new MediaPlayer(media);
    		
    		mediaPlayer.setVolume(0.3);
-    	mediaPlayer.play();
+    	mediaPlayer.play();*/
 		launch(args);
 	}
 }
