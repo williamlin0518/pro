@@ -98,7 +98,7 @@ public  class SceneController implements Runnable{
 		else if(count==5) {
 			int playerX=50*Player.UNIT_SIZE,playerY=50*Player.UNIT_SIZE;
 	        GameView gameView =new GameView(playerX,playerY,false);
-	        gameView.createNewGame((Stage)(( Node)event.getSource()).getScene().getWindow());
+	        gameView.createNewGame((Stage)(( Node)event.getSource()).getScene().getWindow());//hunk
 		}
 		}
 	
