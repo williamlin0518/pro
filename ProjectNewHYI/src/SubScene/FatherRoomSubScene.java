@@ -12,8 +12,7 @@ import javafx.util.Duration;
 
 
 public class FatherRoomSubScene extends SubScene {
-
-    Button button1 = new Button("");
+	  Button button1 = new Button("");
     Button button2 = new Button("");
     Button button3 = new Button("");
     Button buttonEnter = new Button("¿é¤J");

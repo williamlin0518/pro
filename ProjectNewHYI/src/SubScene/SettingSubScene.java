@@ -17,37 +17,53 @@ import javafx.util.Duration;
 public class SettingSubScene extends SubScene {
 
     private boolean isHidden = true;
-    Button backtogame = new Button("Back to game");//Hunk0525
-	Button keysetting = new Button("Key setting");//Hunk0525
-	Button backtomenu = new Button("Back to menu");//Hunk0525
+    Button backtogame = new Button("");//Hunk0525
+	Button keysetting = new Button("");//Hunk0525
+	Button backtomenu = new Button("");//Hunk0525
 	
 
-    private final static String BACKGROUND_IMAGE = "openletter.png";
+    private final static String BACKGROUND_IMAGE = "settingPic.jpg";
 
     public SettingSubScene() {
         super(new AnchorPane(),1024, 768);
         prefWidth(1024);
         prefHeight(768);
 
-        BackgroundImage image = new BackgroundImage(new Image(BACKGROUND_IMAGE,1024, 768, false, true),
+        BackgroundImage image = new BackgroundImage(new Image(BACKGROUND_IMAGE,423, 500, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         AnchorPane rootset = (AnchorPane) this.getRoot();
 
         rootset.setBackground(new Background(image));
-
         
-         setLayoutX(-100);
+        setLayoutX(100);
         setLayoutY(-1000);
-        backtogame.setPrefSize(100, 50);
-        backtogame.setLayoutX(300);
-        backtogame.setLayoutY(300);
-        keysetting.setPrefSize(100, 50);
-        keysetting.setLayoutX(450);
-        keysetting.setLayoutY(300);
-        backtomenu.setPrefSize(100, 50);
-        backtomenu.setLayoutX(600);
-        backtomenu.setLayoutY(300);
+        BackgroundImage backgroundImage1 = new BackgroundImage( new Image( getClass().getResource("keyboardsetting.jpg").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Background background1 = new Background(backgroundImage1);
+        
+        BackgroundImage backgroundImage2 = new BackgroundImage( new Image( getClass().getResource("backtogame.jpg").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Background background2 = new Background(backgroundImage1);
+        
+        BackgroundImage backgroundImage3 = new BackgroundImage( new Image( getClass().getResource("backtomenu.jpg").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Background background3 = new Background(backgroundImage1);
+       
+       
+       
+        backtogame.setPrefSize(232, 100);
+        backtogame.setLayoutX(100);
+        backtogame.setLayoutY(100);
+        backtogame.setBackground(background2);
+       
+        keysetting.setPrefSize(232,100);
+        keysetting.setLayoutX(100);
+        keysetting.setLayoutY(225);
+        keysetting.setBackground(background1);
+        
+        backtomenu.setPrefSize(232,100);
+        backtomenu.setLayoutX(100);
+        backtomenu.setLayoutY(350);
+        backtomenu.setBackground(background3);
+        
         rootset.getChildren().add(backtogame);
         rootset.getChildren().add(keysetting);
         rootset.getChildren().add(backtomenu);//Hunk0525
@@ -100,7 +116,7 @@ public class SettingSubScene extends SubScene {
 			@Override
 			public void handle(ActionEvent actionEvent) {
 				// TODO Auto-generated method stub
-				
+				System.exit(0);
 			}
         	
         });
@@ -115,11 +131,11 @@ public class SettingSubScene extends SubScene {
 
 
         if (isHidden) {
-            transition.setToX(-100);
-            transition.setToY(900);
+            transition.setToX(100);
+            transition.setToY(1000);
             isHidden = false;
         } else {
-            transition.setToX(-100);
+            transition.setToX(100);
             transition.setToY(-1000);
             isHidden = true;
         }
