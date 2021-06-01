@@ -1,0 +1,19 @@
+if(abs(enemyX-playerX)<200&&abs(enemyY-playerY)<200){
+
+                    if(abs(enemyX-playerX)<20&&abs(enemyY-playerY)<20){
+                        System.out.println("die");
+                    }
+                    else if((enemyX-playerX)<0&&(enemyY-playerY)<0){
+                        enemy1.update(false,true,true,false,18);
+
+                    }
+                    else if((enemyX-playerX)>0&&(enemyY-playerY)<0){
+                        enemy1.update(false,true,false,true,18);
+                    }
+                    else if((enemyX-playerX)<0&&(enemyY-playerY)>0){
+                        enemy1.update(true,false,false,true,18);
+                    }
+                    else if((enemyX-playerX)>0&&(enemyY-playerY)>0){
+                        enemy1.update(true,false,false,true,18);
+                    }
+                }
