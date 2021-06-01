@@ -129,10 +129,11 @@ public class FatherRoomSubScene extends SubScene {
 					button1.setBackground(background11);
 					isPressedButtonA = false;
 				} else if (isPressedButtonA ==false && isPressedButton1) {
-					button1.setBackground(background12);
+					button1.setBackground(background13);
+				
 					isPressedButton1 = false;
 				} else if (isPressedButton1 == false) {
-					button1.setBackground(background13);
+					button1.setBackground(background12);
 					isPressedButtonA = true;
 					isPressedButton1 = true;
 				}
@@ -147,10 +148,11 @@ public class FatherRoomSubScene extends SubScene {
 					button2.setBackground(background21);
 					isPressedButtonB = false;
 				} else if (isPressedButtonB == false && isPressedButton2) {
-					button2.setBackground(background22);
+					button2.setBackground(background23);
 					isPressedButton2 = false;
 				} else if (isPressedButton2 == false) {
-					button2.setBackground(background23);
+					button2.setBackground(background22);
+					
 					isPressedButtonB = true;
 					isPressedButton2 = true;
 				}
@@ -165,10 +167,11 @@ public class FatherRoomSubScene extends SubScene {
 					button3.setBackground(background31);
 					isPressedButtonC = false;
 				} else if (isPressedButtonC == false && isPressedButton3) {
-					button3.setBackground(background32);
+					button3.setBackground(background33);
 					isPressedButton3 = false;
 				} else if (isPressedButton3 == false) {
-					button3.setBackground(background33);
+					button3.setBackground(background32);
+					
 					isPressedButtonC= true;
 					isPressedButton3 = true;
 				}
@@ -177,7 +180,7 @@ public class FatherRoomSubScene extends SubScene {
 		buttonEnter.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent actionEvent) {
-				if (isPressedButton1  && isPressedButton2 && isPressedButton3&&isPressedButtonA&&isPressedButtonB&&isPressedButtonC) {
+				if (isPressedButton1==false  && isPressedButton2==false && isPressedButton3==false&&isPressedButtonA==false&&isPressedButtonB==false&&isPressedButtonC==false) {
 					fatherRoomStage = fatherStage;
 					fatherRoomStage.close();
 				}
