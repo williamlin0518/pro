@@ -29,7 +29,7 @@ public class SecondView {
     private final Pane root=new Pane();
     ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(("playerImageNew.png"))));
     ImageView eyefalse = new ImageView(new Image(getClass().getResourceAsStream(("eyefalse.png"))));
-    ImageView eyeTrue = new ImageView(new Image(getClass().getResourceAsStream(("eyetrue.png"))));
+    ImageView eyeTrue = new ImageView(new Image(getClass().getResourceAsStream("eyetrue.png")));
     ImageView hammer = new ImageView(new Image(getClass().getResourceAsStream(("hammer.png"))));
 
 
@@ -37,30 +37,30 @@ public class SecondView {
 
 
     Player player1=new Player(imageView);
-    double playerX=60,playerY=280;
+    double playerX=60,playerY=200;
 
 
     public SecondView(boolean isPickLight){
 
-        hammer.setX(950);
-        hammer.setY(350);
+        hammer.setX(600);
+        hammer.setY(270);
         root.getChildren().add(hammer);
-        eyefalse.setFitWidth(900);
-        eyefalse.setFitHeight(750);
-        eyefalse.setX(30);
-        eyefalse.setY(30);
+        eyefalse.setFitWidth(600);
+        eyefalse.setFitHeight(400);
+        eyefalse.setX(100);
+        eyefalse.setY(100);
 
-        eyeTrue.setFitWidth(900);
-        eyeTrue.setFitHeight(750);
-        eyeTrue.setX(30);
-        eyeTrue.setY(30);
+        eyeTrue.setFitWidth(600);
+        eyeTrue.setFitHeight(400);
+        eyeTrue.setX(100);
+        eyeTrue.setY(100);
 
 
 
         System.out.println("Second View");
         player1.setTranslateX(playerX);
         player1.setTranslateY(playerY);
-        secondScene = new Scene(root, 1024, 800);
+        secondScene = new Scene(root, 732, 648);
         gameStage = new Stage();
         gameStage.setScene(secondScene); //will
         secondScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -74,7 +74,7 @@ public class SecondView {
                     System.out.println("Second check");
                     System.out.println(playerX+", "+playerY);
 
-                    if(playerX>200&&playerX<270&&playerY>300&&playerY<350){
+                    if(playerX>50&&playerX<170&&playerY>150&&playerY<250){
                         System.out.println("use tele");
                         if(isPickLight){
                             if(isHidden) {
@@ -96,7 +96,7 @@ public class SecondView {
                             }
                         }
                     }
-                    if(playerX<1000&&playerX>910&&playerY>270&&playerY<350){
+                    if(playerX<650&&playerX>550&&playerY>200&&playerY<300){
                         root.getChildren().remove(hammer);
                         isPickHammer=true;
                     }
@@ -123,9 +123,9 @@ public class SecondView {
                 playerY= player1.getTranslateY();
 
 
-                if(playerX<50&&playerY>300&&playerY<500&&GameView.left==true&&createFirstView==true){
-                    FirstView firstView=new FirstView(660,350,isPickHammer);
-                    firstView.createFirstrView(secondRoomStage);
+                if(playerX<50&&playerY>200&&playerY<350&&GameView.left==true&&createFirstView==true){
+                    FirstView firstView=new FirstView(450,250,isPickHammer);
+                    firstView.createFirstrView(gameStage);
                     createFirstView=false;
                 }
 
@@ -154,7 +154,7 @@ public class SecondView {
 
 
     private void createGameBackground(){
-        Image backgroundImage= new Image("secondView.png",1024,800,false,true);
+        Image backgroundImage= new Image("secondView.png",732,648,false,true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,null);
         root.setBackground(new Background(background));
     }
