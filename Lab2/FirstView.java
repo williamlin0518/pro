@@ -15,6 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import view.GameView;
 
@@ -25,12 +27,12 @@ public class FirstView {
 	boolean enemyRight = true;
 	boolean right2 = true;
 	boolean right3 = true;
-
+	boolean createThirdView = true;
 	boolean createSecondView = true;
 	boolean isWallBroken;
 	boolean isAllBroken;
 	boolean isPickLight;
-
+	boolean bridgeIsOpen = false;
 	private Scene firstScene;
 	private Stage gameStage;
 	private Stage fatherroomStage;
@@ -106,6 +108,7 @@ public class FirstView {
 		text1.setPrefWidth(Region.USE_COMPUTED_SIZE);
 		text1.setVisible(false);
 		text1.setFocusTraversable(false);
+		text1.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
 		
 		TextField text2 = new TextField();
 		text2.setLayoutX(530);
@@ -118,7 +121,7 @@ public class FirstView {
 		text2.setPrefWidth(Region.USE_COMPUTED_SIZE);
 		text2.setVisible(false);
 		text2.setFocusTraversable(false);
-		
+		text2.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
 		TextField text3 = new TextField();
 		text3.setLayoutX(535);
 		text3.setLayoutY(385);
@@ -129,6 +132,7 @@ public class FirstView {
 		text3.setMaxWidth(60);
 		text3.setPrefWidth(Region.USE_COMPUTED_SIZE);
 		text3.setVisible(false);
+		text3.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
 		text3.setFocusTraversable(false);
 		root.getChildren().add(text1);
 		root.getChildren().add(text2);
@@ -184,14 +188,22 @@ public class FirstView {
 						    
 							@Override
 							public void handle(Event arg0) {
-								if(Integer.parseInt(text1.getText())==3 && Integer.parseInt(text2.getText())==6 && Integer.parseInt(text3.getText())==5) {
+								if(Integer.parseInt(text1.getText())==4 && Integer.parseInt(text2.getText())==3 && Integer.parseInt(text3.getText())==2) {
 									bridge.setVisible(true);
 									text1.setVisible(false);
 									text2.setVisible(false);
 									text3.setVisible(false);
 									enterButton.setVisible(false);
 									circle.setVisible(false);
+									bridgeIsOpen =true;
 								System.out.println("Success");
+							}else if(text1.getText()=="" && text2.getText()=="" && text3.getText()=="") {
+								text1.setVisible(false);
+								text2.setVisible(false);
+								text3.setVisible(false);
+								enterButton.setVisible(false);
+								circle.setVisible(false);
+								circleShow = false;
 							}else {
 								text1.setVisible(false);
 								text2.setVisible(false);
@@ -243,10 +255,10 @@ public class FirstView {
 		root.getChildren().add(enemy2);
 		// root.getChildren().add(enemy3);
 
-		enemy1.setTranslateX(0);
-		enemy1.setTranslateY(450);
+		enemy1.setTranslateX(50);
+		enemy1.setTranslateY(480);
 		enemy2.setTranslateX(700);
-		enemy2.setTranslateY(420);
+		enemy2.setTranslateY(370);
 		// enemy2.setTranslateX(400);
 		// enemy3.setTranslateY(300);
 
@@ -266,25 +278,32 @@ public class FirstView {
 
 				player1.updateFirstView(GameView.up, GameView.down, GameView.right, GameView.left);
 
-				/*if (playerX > 400 && playerX < 560 && playerY > 150 && playerY < 200 && GameView.up == true
+				if (playerX > 400 && playerX < 560 && playerY > 150 && playerY < 200 && GameView.up == true
 						&& createSecondView) {
 					SecondView secondView = new SecondView(isPickLight);
 					secondView.createSecondView(gameStage);
 					createSecondView = false;
 
-				}*/
+				}
+				if(playerX > 0 && playerX < 200 && playerY > 500 && playerY < 648 && GameView.down == true
+						&& createThirdView/*&&bridgeIsOpen*/) {
+					System.out.println("ThirdRoom");
+					ThirdView thirdView = new ThirdView();
+					thirdView.createThirdView(gameStage);
+					createThirdView = false;
+				}
 				
 				
 
 				if (enemyRight) {
-					enemy1.update(false, false, true, false, 5);
+					enemy1.update(false, false, true, false, 3);
 					if (enemyX > 650) {
 						enemyRight = false;
-						// System.out.println("right");
+						 //System.out.println("right");
 					}
 				}
 				if (!enemyRight) {
-					enemy1.update(false, false, false, true, 5);
+					enemy1.update(false, false, false, true, 3);
 
 					if (enemyX < 20) {
 						enemyRight = true;
@@ -294,13 +313,13 @@ public class FirstView {
 				}
 
 				if (right2) {
-					enemy2.update(false, false, true, false, 5);
+					enemy2.update(false, false, true, false, 3);
 					if (enemy2X > 650) {
 						right2 = false;
 					}
 				}
 				if (!right2) {
-					enemy2.update(false, false, false, true, 5);
+					enemy2.update(false, false, false, true, 3);
 
 					if (enemy2X < 20) {
 						right2 = true;

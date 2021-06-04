@@ -98,6 +98,7 @@ public class SecondView {
                     }
                     if(playerX<650&&playerX>550&&playerY>200&&playerY<300){
                         root.getChildren().remove(hammer);
+                        hammer.setVisible(false);
                         isPickHammer=true;
                     }
                 }
