@@ -1,9 +1,7 @@
 package Lab2;
 import Player.Player;
 import Setting.Setting;
-import SubScene.LetterSubScene;
 import SubScene.SettingSubScene;
-import SubScene.ShopSubScene;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,11 +24,16 @@ public class ShopView {
     private Scene gameScene;
     private Stage shopStage;
     private Stage firstviewStage;
-    public ShopSubScene shopSubScene;
     boolean createFirstView=true;
+    boolean isHidden1,isHidden2,isHidden3,isHiddendialogBox;
     boolean shopisactive;
     private final Pane shopRoot =new Pane();
     ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(("playerImageNew.png"))));
+    ImageView top = new ImageView(new Image(getClass().getResourceAsStream("top.png"), 600, 400, false, false));
+    ImageView middle = new ImageView(new Image(getClass().getResourceAsStream("middle.png"), 600, 400, false, false));
+    ImageView bottom = new ImageView(new Image(getClass().getResourceAsStream("bottom.png"), 600, 400, false, false));
+    ImageView dialogBox = new ImageView(new Image(getClass().getResourceAsStream("test2.png"), 600, 200, false, false));
+    ImageView lock = new ImageView(new Image(getClass().getResourceAsStream("lock.png"), 300, 500, false, false));
     ImageView merchantView = new ImageView(new Image(getClass().getResourceAsStream(("merchant2.png"))));
 //    ImageView labelEmpty =new ImageView(new Image(getClass().getResourceAsStream("labelEmpty.png")));
     Player playerShop =new Player(imageView);
@@ -41,6 +44,36 @@ public class ShopView {
     public TextArea textArea=new TextArea("In Shop");
     private Label keyLabelPane =new Label();
     public ShopView(boolean isBridge) {
+        top.setFitWidth(600);
+        top.setFitHeight(400);
+        top.setX(50);
+        top.setY(100);
+
+        middle.setFitWidth(600);
+        middle.setFitHeight(400);
+        middle.setX(50);
+        middle.setY(100);
+
+        bottom.setFitWidth(600);
+        bottom.setFitHeight(500);
+        bottom.setX(50);
+        bottom.setY(100);
+
+
+        lock.setFitWidth(300);
+        lock.setFitHeight(500);
+        lock.setX(300);
+        lock.setY(50);
+
+        dialogBox.setFitWidth(600);
+        dialogBox.setFitHeight(200);
+        dialogBox.setX(60);
+        dialogBox.setY(450);
+
+        isHidden1  =true;
+        isHidden2 = true;
+        isHidden3 = true;
+        isHiddendialogBox=true;
         keyLabelPane.setPrefSize(100,100);
         keyLabelPane.setLayoutX(732);
         keyLabelPane.setLayoutY(0);
@@ -59,8 +92,6 @@ public class ShopView {
         shopStage = new Stage();
         shopStage.setScene(gameScene);
         settingButton =new Setting();
-        createShopSubScene();
-        shopSubScene.setVisible(false);
         //settingButton.setOnAction(new EventHandler<ActionEvent>() {
 
         //	@Override
@@ -138,15 +169,79 @@ public class ShopView {
 
                  */
 
-                if(playerX>0&&playerX<50&&playerY>0&&playerY<30&&GameView.up==true&&createFirstView==true){
-                    FirstView firstView=new FirstView(50,520,true);
-                    firstView.createFirstrView(shopStage);
-                    createFirstView=false;
+                if(shopisactive&&playerX>550&&abs(playerX-merchantX)<50&&abs(playerY-merchantX)<50){
+                    if(isHiddendialogBox) {
+                        shopRoot.getChildren().add(dialogBox);
+                        isHiddendialogBox=false;
+                        //System.out.println("middle");
+                    }else{
+                        shopRoot.getChildren().remove(dialogBox);
+                        isHiddendialogBox=true;
+                        //System.out.println("middle middle");
+                    }
+                    shopisactive=false;
                 }
+                /*
                 if(shopisactive&&abs(playerX-merchantX)<50&&abs(playerY-merchantY)<50){
                     shopSubScene.setVisible(true);
                     shopisactive=false;
                     System.out.println("open");
+                }
+
+                 */
+                if(shopisactive&&playerY>360&&playerY<400&&playerX>60&&playerX<140) {
+                    if(isHidden2) {
+                        shopRoot.getChildren().add(middle);
+                        isHidden2=false;
+                        //System.out.println("middle");
+                    }else{
+                        shopRoot.getChildren().remove(middle);
+                        isHidden2=true;
+                        //System.out.println("middle middle");
+                    }
+                    shopisactive=false;
+
+                }
+                if(shopisactive&&playerX>40&&playerX<260&&playerY>490&&playerY<560) {
+
+                    if(isHidden3) {
+                        shopRoot.getChildren().add(bottom);
+                        isHidden3=false;
+                        //System.out.println("top");
+                    }else{
+                        shopRoot.getChildren().remove(bottom);
+                        isHidden3=true;
+                        //System.out.println("top top");
+                    }
+                    shopisactive=false;
+                }
+
+                if(shopisactive&&playerX>470&&playerX<550&&playerY>180&&playerY<250) {
+
+                    if(isHidden3) {
+                        shopRoot.getChildren().add(top);
+                        isHidden3=false;
+                        System.out.println("hi");
+                    }else{
+                        shopRoot.getChildren().remove(top);
+                        isHidden3=true;
+                        System.out.println("hi hi");
+                    }
+                    shopisactive=false;
+
+                }
+                if(shopisactive&&playerX>532&&playerX<732&&playerY>448&&playerY<648) {
+
+                    if(isHidden3) {
+                        shopRoot.getChildren().add(lock);
+                        isHidden3=false;
+                        System.out.println("hi");
+                    }else{
+                        shopRoot.getChildren().remove(lock);
+                        isHidden3=true;
+                        System.out.println("hi hi");
+                    }
+                    shopisactive=false;
                 }
 
 
@@ -177,11 +272,6 @@ public class ShopView {
         settingSubScene=new SettingSubScene();                //will
         shopRoot.getChildren().add(settingSubScene);
     }
-    private void createShopSubScene(){
-        shopSubScene =new ShopSubScene();
-        shopRoot.getChildren().add(shopSubScene);
-    }
-
 
 
 
