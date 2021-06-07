@@ -27,7 +27,7 @@ public class FirstView {
 	boolean enemyRight = true;
 	boolean right2 = true;
 	boolean right3 = true;
-	boolean createThirdView = true;
+	boolean createShopView = true;
 	boolean createSecondView = true;
 	boolean isWallBroken;
 	boolean isAllBroken;
@@ -38,9 +38,9 @@ public class FirstView {
 	private Stage fatherroomStage;
 	private final Pane root = new Pane();
 	ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(("playerImageNew.png"))));
-	ImageView enemyImageView = new ImageView(new Image(getClass().getResourceAsStream(("enemy.png"))));
-	ImageView enemy2ImageView = new ImageView(new Image(getClass().getResourceAsStream(("enemy.png"))));
-	ImageView enemy3ImageView = new ImageView(new Image(getClass().getResourceAsStream(("enemy.png"))));
+	ImageView enemyImageView = new ImageView(new Image(getClass().getResourceAsStream(("enemySmall.png"))));
+	ImageView enemy2ImageView = new ImageView(new Image(getClass().getResourceAsStream(("enemySmall.png"))));
+	ImageView enemy3ImageView = new ImageView(new Image(getClass().getResourceAsStream(("enemySmall.png"))));
 	ImageView wall1 = new ImageView(new Image(getClass().getResourceAsStream("wall1.png"), 160, 130, false, false));
 	ImageView wall2 = new ImageView(new Image(getClass().getResourceAsStream("wall2.png"), 160, 130, false, false));
 	ImageView circle = new ImageView(new Image(getClass().getResourceAsStream("circle.png"),500,400,false,false));
@@ -59,7 +59,7 @@ public class FirstView {
 	boolean circleShow;
 	
 	public FirstView(int x, int y, boolean isPickHammer) {
-
+		
 		System.out.println("First VIew");
 
 		playerX = x;
@@ -256,9 +256,9 @@ public class FirstView {
 		// root.getChildren().add(enemy3);
 
 		enemy1.setTranslateX(50);
-		enemy1.setTranslateY(480);
+		enemy1.setTranslateY(500);
 		enemy2.setTranslateX(700);
-		enemy2.setTranslateY(370);
+		enemy2.setTranslateY(400);
 		// enemy2.setTranslateX(400);
 		// enemy3.setTranslateY(300);
 
@@ -276,7 +276,7 @@ public class FirstView {
 				//enemy3X = enemy3.getTranslateX();
 				//enemy3Y = enemy3.getTranslateY();
 
-				player1.updateFirstView(GameView.up, GameView.down, GameView.right, GameView.left);
+				player1.updateRoom1(GameView.up, GameView.down, GameView.right, GameView.left);
 
 				if (playerX > 400 && playerX < 560 && playerY > 150 && playerY < 200 && GameView.up == true
 						&& createSecondView) {
@@ -286,11 +286,11 @@ public class FirstView {
 
 				}
 				if(playerX > 0 && playerX < 200 && playerY > 500 && playerY < 648 && GameView.down == true
-						&& createThirdView/*&&bridgeIsOpen*/) {
+						&& createShopView&&bridgeIsOpen) {
 					System.out.println("ThirdRoom");
-					ThirdView thirdView = new ThirdView();
-					thirdView.createThirdView(gameStage);
-					createThirdView = false;
+					ShopView thirdView = new ShopView();
+					thirdView.createShopView(gameStage);
+					createShopView = false;
 				}
 				
 				

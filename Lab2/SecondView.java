@@ -130,7 +130,7 @@ public class SecondView {
                     createFirstView=false;
                 }
 
-                player1.updateFirstView(GameView.up,GameView.down,GameView.right,GameView.left);
+                player1.updateRoom1(GameView.up,GameView.down,GameView.right,GameView.left);
 
 
 
